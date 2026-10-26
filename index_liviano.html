@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Misión 2030: Somos (+) Evolución · Aportes en Línea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --emerald:#00A651; --deep:#007755; --lime:#86BC25; --yellow:#FFD854;
+  --ink:#02140f; --panel:rgba(3,38,30,.58); --text:#eafff3; --muted:#a9d9bd;
+  --fondo:url('/assets/fondo.jpg');
+  --f-display:'Orbitron','Segoe UI',system-ui,sans-serif;
+  --f-body:'Rajdhani','Segoe UI',system-ui,sans-serif;
+  --vh:min(72dvh,680px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:var(--f-body);font-weight:500;font-size:17px;color:var(--text);background:var(--ink);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+
+/* ---------- Fondo inmersivo ---------- */
+.bg-img{position:fixed;inset:0;background:var(--fondo) center/cover no-repeat;z-index:-2;transform:scale(1.02)}
+.bg-shade{position:fixed;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(2,20,15,.35),rgba(2,20,15,.62));transition:opacity .6s}
+body:not(.is-welcome) .bg-shade{background:linear-gradient(90deg,rgba(2,20,15,.82),rgba(2,20,15,.58) 55%,rgba(2,20,15,.82));backdrop-filter:blur(5px)}
+
+/* ---------- Pantallas ---------- */
+.screen{display:none;min-height:100dvh}
+.screen.active{display:flex;animation:fadeIn .55s ease both}
+@keyframes fadeIn{from{opacity:0;transform:scale(.99)}to{opacity:1;transform:none}}
+
+/* ---------- Botones ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 30px;border:0;cursor:pointer;font-family:var(--f-display);font-weight:800;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;border-radius:18px 5px 18px 5px;transition:transform .2s,box-shadow .25s,filter .2s,opacity .2s}
+.btn:active{transform:scale(.97)}
+.btn-neon{color:#02231a;background:linear-gradient(100deg,var(--lime),#4fd36a 55%,var(--emerald));box-shadow:0 0 0 1px rgba(214,255,120,.6) inset,0 0 22px rgba(134,188,37,.65),0 0 60px rgba(0,166,81,.35)}
+.btn-neon:hover{filter:brightness(1.12);box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 0 32px rgba(134,188,37,.95),0 0 80px rgba(0,166,81,.5)}
+.btn-neon.pulse{animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 1px rgba(214,255,120,.6) inset,0 0 34px rgba(134,188,37,.95),0 0 90px rgba(0,166,81,.55)}}
+.btn-ghost{background:rgba(3,38,30,.55);border:1.5px solid rgba(134,188,37,.6);color:var(--text)}
+.btn-ghost:hover{background:rgba(134,188,37,.16)}
+.btn[disabled]{opacity:.38;cursor:not-allowed;filter:saturate(.5);box-shadow:none;animation:none}
+
+/* ---------- Glass ---------- */
+.glass{background:var(--panel);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1.5px solid rgba(134,188,37,.5);border-radius:26px 8px 26px 8px;box-shadow:0 0 0 1px rgba(0,0,0,.25) inset,0 0 36px rgba(0,166,81,.28),0 20px 60px rgba(0,0,0,.45)}
+
+/* ---------- Paso 0: bienvenida ---------- */
+#s0{align-items:center;justify-content:center;flex-direction:column;padding:32px 20px;text-align:center;gap:26px}
+.hero-kicker{font-family:var(--f-display);font-weight:700;letter-spacing:.5em;font-size:clamp(.7rem,1.6vw,1rem);color:#d8ffe6;text-shadow:0 0 14px rgba(0,0,0,.8)}
+.hero-title{margin:0;font-family:var(--f-display);font-weight:900;line-height:.95;font-size:clamp(2.7rem,10vw,7.2rem);letter-spacing:.02em;background:linear-gradient(180deg,#f4ffd0,var(--lime) 45%,var(--emerald));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 18px rgba(134,188,37,.7)) drop-shadow(0 6px 18px rgba(0,0,0,.6))}
+.hero-motto{margin:0;font-family:var(--f-display);font-weight:800;font-size:clamp(1.05rem,3.6vw,2.3rem);letter-spacing:.12em;color:#fff;text-shadow:0 0 18px rgba(0,166,81,.9),0 3px 14px rgba(0,0,0,.7)}
+.hero-motto b{color:var(--yellow);text-shadow:0 0 16px rgba(255,216,84,.85)}
+.hero-sub{margin:4px 0 0;max-width:46ch;font-size:1.15rem;font-weight:600;color:#e4fff0;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.start-form{width:min(460px,100%);padding:26px 26px 28px;display:grid;gap:14px;text-align:left}
+.start-form label{font-family:var(--f-display);font-weight:700;font-size:.78rem;letter-spacing:.14em;color:var(--lime)}
+.input-neon{width:100%;height:56px;padding:0 18px;border-radius:14px 4px 14px 4px;border:1.5px solid rgba(134,188,37,.6);background:rgba(2,20,15,.72);font-size:1.25rem;font-weight:600;letter-spacing:.02em;transition:box-shadow .2s,border-color .2s}
+.input-neon::placeholder{color:#6f9d85}
+.input-neon:focus{outline:none;border-color:var(--lime);box-shadow:0 0 0 3px rgba(134,188,37,.28),0 0 24px rgba(134,188,37,.5)}
+.input-neon.err{border-color:#ff7a59;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.field-msg{min-height:1.2em;margin:-6px 0 0;font-size:.95rem;color:#ffb199}
+
+/* ---------- Pasos 1–3 ---------- */
+#s-build{align-items:center;justify-content:center}
+.build{width:100%;max-width:1280px;margin:0 auto;padding:24px clamp(14px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,480px);gap:clamp(18px,3.5vw,48px);align-items:center}
+.visor-col{display:grid;justify-items:center;gap:14px}
+.visor{--w:calc(var(--vh)*.75);position:relative;width:var(--w);height:var(--vh);overflow:hidden;border-radius:34px 8px 34px 8px;border:2px solid rgba(134,188,37,.85);background:var(--fondo) center/cover no-repeat;box-shadow:0 0 0 1px rgba(0,0,0,.4) inset,0 0 44px rgba(0,166,81,.55),0 24px 70px rgba(0,0,0,.55);isolation:isolate}
+.visor::before,.visor::after{content:"";position:absolute;z-index:6;width:46px;height:46px;pointer-events:none}
+.visor::before{top:12px;left:12px;border-top:3px solid var(--yellow);border-left:3px solid var(--yellow);border-radius:20px 0 0 0}
+.visor::after{bottom:12px;right:12px;border-bottom:3px solid var(--yellow);border-right:3px solid var(--yellow);border-radius:0 0 20px 0}
+.stage{position:absolute;left:50%;top:1%;height:82%;aspect-ratio:16/9;transform:translateX(-50%)}
+.scan{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;opacity:0}
+.scan::after{content:"";position:absolute;left:0;right:0;height:26%;background:linear-gradient(180deg,transparent,rgba(134,188,37,.55),transparent)}
+.scan.go{opacity:1}
+.scan.go::after{animation:scan .9s ease-out both}
+@keyframes scan{from{top:-30%}to{top:105%}}
+.nameplate{font-family:var(--f-display);font-weight:700;font-size:.82rem;letter-spacing:.14em;padding:10px 22px;border-radius:14px 4px 14px 4px;border:1.5px solid rgba(134,188,37,.55);background:rgba(3,38,30,.7);color:#e8ffd0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* layers (regla 1:1 del lienzo) */
+.layer{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;pointer-events:none;opacity:0;transition:opacity .35s ease;user-select:none}
+.layer.z1{z-index:1}.layer.z2{z-index:2}.layer.z3{z-index:3}.layer.z4{z-index:4}
+.no-anim .layer{transition:none}
+
+.panel-main{padding:22px 22px 20px;display:flex;flex-direction:column;gap:16px;max-height:calc(100dvh - 40px);overflow:auto;scrollbar-width:thin;scrollbar-color:var(--emerald) transparent}
+.stepper{display:flex;align-items:center;gap:8px;list-style:none;margin:0;padding:0}
+.stepper li{flex:1;display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:700;font-size:.68rem;letter-spacing:.1em;color:#7fae94}
+.stepper li i{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;font-style:normal;border:1.5px solid #3c7a5c;background:rgba(2,20,15,.6)}
+.stepper li.cur{color:#fff}.stepper li.cur i{border-color:var(--lime);background:var(--lime);color:#02231a;box-shadow:0 0 14px rgba(134,188,37,.85)}
+.stepper li.done{color:var(--lime)}.stepper li.done i{border-color:var(--lime);color:var(--lime)}
+.stepper li+li::before{content:"";flex:1;height:2px;margin-right:2px;background:linear-gradient(90deg,#2d6a4f,transparent);min-width:10px;max-width:40px}
+.stepper li span{white-space:nowrap}
+.step-title{margin:0;font-family:var(--f-display);font-weight:800;font-size:1.35rem;letter-spacing:.04em;line-height:1.2}
+.step-help{margin:-8px 0 0;color:var(--muted);font-size:1.05rem;font-weight:600}
+.nav{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:4px}
+.nav .btn{min-height:48px;padding:0 22px;font-size:.78rem}
+.nav .btn-neon{margin-left:auto}
+
+/* opciones */
+.gender{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.opt{position:relative;cursor:pointer;text-align:left;border:1.5px solid rgba(134,188,37,.35);background:rgba(2,26,20,.7);border-radius:18px 5px 18px 5px;transition:transform .2s,border-color .2s,box-shadow .25s,background .2s}
+.opt:hover{transform:translateY(-2px);border-color:rgba(134,188,37,.8)}
+.opt[aria-pressed=true],.opt[aria-checked=true]{border-color:var(--lime);background:linear-gradient(160deg,rgba(134,188,37,.28),rgba(0,119,85,.3));box-shadow:0 0 0 1px rgba(214,255,120,.5) inset,0 0 26px rgba(134,188,37,.55)}
+.gender .opt{padding:10px 10px 14px;display:grid;gap:8px;justify-items:center;font-family:var(--f-display);font-weight:800;letter-spacing:.1em;font-size:.95rem}
+.gender .thumb{width:100%;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:var(--fondo) center/cover}
+.gender .thumb img{width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+
+.counter{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:14px 4px 14px 4px;background:rgba(2,20,15,.7);border:1.5px solid rgba(255,216,84,.55)}
+.counter strong{font-family:var(--f-display);font-weight:800;font-size:.9rem;letter-spacing:.06em;color:var(--yellow)}
+.pips{display:flex;gap:8px}.pips b{width:16px;height:16px;border-radius:50%;border:2px solid var(--yellow);transition:background .25s,box-shadow .25s}
+.pips b.on{background:var(--yellow);box-shadow:0 0 12px rgba(255,216,84,.9)}
+.swap-note{min-height:1.3em;margin:-6px 0 0;color:var(--yellow);font-size:.98rem;font-weight:600}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.items .opt{display:grid;grid-template-columns:56px 1fr;gap:10px;align-items:center;padding:9px 12px 9px 8px;min-height:76px}
+.items .opt:last-child:nth-child(odd){grid-column:1/-1}
+.items .ico{width:56px;height:56px;border-radius:14px;background:radial-gradient(circle,rgba(134,188,37,.28),rgba(2,20,15,.2) 70%);display:grid;place-items:center}
+.items .ico img{width:48px;height:48px;object-fit:contain}
+.items .nm{font-weight:700;font-size:1.02rem;line-height:1.12}
+.items .tg{display:block;margin-top:2px;font-size:.84rem;font-weight:600;color:var(--muted);line-height:1.1}
+.badge-n{position:absolute;top:-8px;right:-6px;width:26px;height:26px;border-radius:50%;display:none;place-items:center;background:var(--yellow);color:#2a2000;font-family:var(--f-display);font-weight:900;font-size:.75rem;box-shadow:0 0 12px rgba(255,216,84,.9)}
+.opt[aria-pressed=true] .badge-n{display:grid}
+
+.skills{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.skills .opt{display:grid;gap:8px;padding:12px;min-height:92px;align-content:start}
+.skills svg{width:28px;height:28px;stroke:var(--lime);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skills .nm{font-weight:700;font-size:1.04rem;line-height:1.12}
+.skills .opt[aria-checked=true] svg{stroke:#fff}
+.mission-preview{padding:14px 16px;border-radius:14px 4px 14px 4px;background:rgba(2,20,15,.7);border:1.5px solid rgba(134,188,37,.45);min-height:104px}
+.mission-preview h4{margin:0 0 4px;font-family:var(--f-display);font-weight:800;font-size:.86rem;letter-spacing:.06em;color:var(--lime)}
+.mission-preview p{margin:0;font-size:1.02rem;font-weight:600;line-height:1.28;color:#e6fff0}
+
+/* ---------- Paso 4 ---------- */
+#s4{align-items:center;justify-content:center;flex-wrap:wrap;gap:clamp(16px,3vw,40px);padding:16px}
+.card-fit{position:relative;flex:none}
+.card-scale{position:absolute;top:0;left:0;transform-origin:top left}
+.actions{display:grid;gap:14px;width:min(340px,100%)}
+.actions h2{margin:0;font-family:var(--f-display);font-weight:800;font-size:1.4rem;line-height:1.2}
+.actions p{margin:0;color:var(--muted);font-size:1.08rem;font-weight:600}
+.toast{min-height:1.3em;color:#ffb199;font-weight:600}
+
+/* ---------- Tarjeta (tamaño fijo 640×960, exportable) ---------- */
+.mc{position:relative;width:640px;height:960px;overflow:hidden;font-family:var(--f-body);color:#eafff3;background:#04261e center/cover no-repeat;border-radius:0}
+.mc *{box-sizing:border-box}
+.mc .abs{position:absolute}
+.mc svg.bgsvg{position:absolute;left:0;top:0;pointer-events:none}
+.mc .pn{position:absolute}
+.mc .pn>.in{position:absolute}
+.mc .chip{position:absolute;display:flex;align-items:center;padding:0 14px 0 14px}
+.mc .chip span{position:relative;font-family:var(--f-display);font-weight:800;font-size:11.5px;letter-spacing:.09em;color:#fff;white-space:nowrap}
+.mc .badge{position:absolute}
+.mc .ct{font-family:var(--f-display);text-align:right;line-height:1}
+.mc .ct .k{display:block;font-weight:700;font-size:11px;letter-spacing:.3em;color:#fff;margin-bottom:5px}
+.mc .ct .s{display:block;font-weight:900;font-size:28px;color:#8fe03a;text-shadow:0 0 12px rgba(134,188,37,.75)}
+.mc .ct .s i{font-style:normal;color:#FFD854}
+.mc .ct .e{display:block;font-weight:900;font-size:27px;color:#fff;margin-top:4px;text-shadow:0 0 10px rgba(255,255,255,.35)}
+.mc .nm{font-weight:700;font-size:25px;line-height:1.05;color:#fff;overflow:hidden;display:flex;align-items:center}
+.mc .rol{font-weight:700;font-size:23px;line-height:1.1;color:#fff;display:flex;align-items:center;overflow:hidden;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+.mc .txt{font-weight:600;font-size:16.5px;line-height:1.28;color:#f1fff6;overflow:hidden}
+.mc .msg{font-size:16px}
+.mc .slot{position:absolute;width:272px;height:92px}
+.mc .slot .ring{position:absolute;left:0;top:8px;width:76px;height:76px;border-radius:50%;border:3px solid #FFD854;background:radial-gradient(circle,rgba(0,166,81,.7),rgba(2,30,24,.95) 72%);box-shadow:0 0 0 3px rgba(0,166,81,.55),0 0 18px rgba(134,188,37,.85);display:flex;align-items:center;justify-content:center}
+.mc .slot .ring img{width:58px;height:58px;object-fit:contain}
+.mc .slot .cap{position:absolute;left:86px;top:6px;width:186px;height:80px;padding:8px 10px 6px 14px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.mc .slot .cap b{position:relative;font-size:15.5px;line-height:1.05;font-weight:700;color:#c9f56a}
+.mc .slot .cap small{position:relative;font-size:13px;line-height:1.08;font-weight:600;color:#d6f3e2}
+.mc .avwrap{position:absolute;left:22px;top:26px;width:340px;height:396px;overflow:hidden}
+.mc .avstage{position:absolute}
+
+@media (max-width:899px){
+  :root{--vh:min(44dvh,420px)}
+  .build{grid-template-columns:1fr;padding:16px 14px 28px;align-items:start;gap:16px}
+  .panel-main{max-height:none;overflow:visible}
+  #s-build{align-items:flex-start}
+}
+@media (max-width:420px){
+  .stepper li span{display:none}
+  .items .opt{grid-template-columns:48px 1fr;padding-right:8px}
+  .items .ico{width:48px;height:48px}.items .ico img{width:42px;height:42px}
+  .items .nm{font-size:.95rem}
+  .step-title{font-size:1.15rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body class="is-welcome">
+<div class="bg-img" aria-hidden="true"></div>
+<div class="bg-shade" aria-hidden="true"></div>
+
+<main id="app">
+  <!-- PASO 0 -->
+  <section class="screen active" id="s0" aria-labelledby="t0">
+    <div class="hero-kicker">APORTES EN LÍNEA</div>
+    <h1 class="hero-title" id="t0">MISIÓN 2030</h1>
+    <p class="hero-motto">SOMOS <b>(+)</b> EVOLUCIÓN</p>
+    <p class="hero-sub">Arma tu avatar, elige tus poderes y descubre qué rol cumples en la evolución de Aportes en Línea.</p>
+    <form class="glass start-form" id="start-form" novalidate>
+      <label for="name">NOMBRE DEL COLABORADOR</label>
+      <input class="input-neon" id="name" name="name" type="text" maxlength="28" autocomplete="given-name" placeholder="Escribe tu nombre" aria-describedby="name-msg">
+      <p class="field-msg" id="name-msg" role="alert"></p>
+      <button class="btn btn-neon pulse" type="submit">Iniciar Misión</button>
+    </form>
+  </section>
+
+  <!-- PASOS 1-3 -->
+  <section class="screen" id="s-build" aria-label="Constructor de avatar">
+    <div class="build">
+      <div class="visor-col">
+        <div class="visor" id="visor" role="img" aria-label="Vista previa de tu avatar">
+          <div class="stage" id="stage-main"></div>
+          <div class="scan" id="scan"></div>
+        </div>
+        <div class="nameplate" id="nameplate"></div>
+      </div>
+      <div class="glass panel-main" id="panel">
+        <ol class="stepper" id="stepper" aria-label="Progreso">
+          <li data-s="1"><i>1</i><span>GÉNERO</span></li>
+          <li data-s="2"><i>2</i><span>PODERES</span></li>
+          <li data-s="3"><i>3</i><span>HABILIDAD</span></li>
+        </ol>
+        <div id="step-body" style="display:grid;gap:16px"></div>
+        <div class="nav">
+          <button class="btn btn-ghost" id="btn-back" type="button">Atrás</button>
+          <button class="btn btn-neon" id="btn-next" type="button">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASO 4 -->
+  <section class="screen" id="s4" aria-label="Credencial oficial de misión">
+    <div class="card-fit" id="card-fit"><div class="card-scale" id="card-scale"></div></div>
+    <div class="glass actions" style="padding:22px">
+      <h2>¡Tu credencial está lista!</h2>
+      <p>Descárgala en alta definición y compártela con tu equipo.</p>
+      <button class="btn btn-neon" id="btn-dl" type="button">Descargar Credencial (PNG)</button>
+      <button class="btn btn-ghost" id="btn-new" type="button">Crear Nueva Misión</button>
+      <div class="toast" id="toast" role="status"></div>
+    </div>
+  </section>
+</main>
+<noscript><p style="padding:24px">Esta experiencia necesita JavaScript activado.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script>
+const ASSETS = {
+ "cuerpo_hombre": "/assets/cuerpo_hombre.webp",
+ "cuerpo_mujer": "/assets/cuerpo_mujer.webp",
+ "item_gafas": "/assets/item_gafas.webp",
+ "icon_gafas": "/assets/icon_gafas.webp",
+ "item_capa": "/assets/item_capa.webp",
+ "icon_capa": "/assets/icon_capa.webp",
+ "item_botas": "/assets/item_botas.webp",
+ "icon_botas": "/assets/icon_botas.webp",
+ "item_guantes": "/assets/item_guantes.webp",
+ "icon_guantes": "/assets/icon_guantes.webp",
+ "item_propulsor": "/assets/item_propulsor.webp",
+ "icon_propulsor": "/assets/icon_propulsor.webp",
+ "item_auriculares": "/assets/item_auriculares.webp",
+ "icon_auriculares": "/assets/icon_auriculares.webp",
+ "item_cinturon": "/assets/item_cinturon.webp",
+ "icon_cinturon": "/assets/icon_cinturon.webp",
+ "item_cinturon_mujer": "/assets/item_cinturon_mujer.webp",
+ "cardbg": "/assets/cardbg.jpg"
+};
+</script>
+<script>
+(() => {
+'use strict';
+const A = ASSETS;
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ===================== DATOS ===================== */
+const ITEMS = [
+  {id:'gafas',      name:'Gafas de Visión Estratégica',  art:'las Gafas de Visión Estratégica',  tag:'Ver el panorama completo',   does:'ver el panorama completo antes que nadie'},
+  {id:'capa',       name:'Capa del Trabajo en Equipo',   art:'la Capa del Trabajo en Equipo',    tag:'Se renderiza detrás',        does:'sumar fuerzas con todo el equipo', back:true},
+  {id:'botas',      name:'Botas de la Milla Extra',      art:'las Botas de la Milla Extra',      tag:'Un paso más allá',           does:'dar siempre un paso más allá de lo esperado'},
+  {id:'guantes',    name:'Guantes de Ejecución',         art:'los Guantes de Ejecución',         tag:'Precisión al ejecutar',      does:'ejecutar con precisión y cumplir lo prometido'},
+  {id:'propulsor',  name:'Propulsor de Adaptabilidad',   art:'el Propulsor de Adaptabilidad',    tag:'Se renderiza detrás',        does:'adaptarte con agilidad a cada cambio', back:true},
+  {id:'auriculares',name:'Auriculares de Escucha Activa',art:'los Auriculares de Escucha Activa',tag:'Escuchar para entender',     does:'escuchar de verdad a quienes nos rodean'},
+  {id:'cinturon',   name:'Cinturón de Seguridad Digital',art:'el Cinturón de Seguridad Digital', tag:'Confianza en lo digital',    does:'proteger la información y la confianza en cada paso digital'}
+];
+ITEMS.find(i=>i.id==='capa').tag = 'Fuerza de equipo';
+ITEMS.find(i=>i.id==='propulsor').tag = 'Agilidad ante el cambio';
+const ITEM = id => ITEMS.find(i => i.id === id);
+
+const ICON = {
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/>',
+  compass:'<circle cx="12" cy="12" r="9"/><polygon points="15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/><path d="M12 12 20 4"/>',
+  bolt:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/>',
+  flag:'<path d="M5 21V4M5 4h12l-2.5 4L17 12H5"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 6 6"/>',
+  bars:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+  bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+  nodes:'<circle cx="6" cy="5" r="2"/><circle cx="18" cy="5" r="2"/><circle cx="12" cy="19" r="2"/><path d="M6 7c0 5 6 4 6 10M18 7c0 5-6 4-6 10"/>'
+};
+const SKILLS = [
+  {id:'estrategico', name:'Pensamiento estratégico', icon:'flag',   role:'El Arquitecto del Futuro',     mission:'Veo más allá del presente, conecto mis acciones con nuestra visión y construyo el camino hacia la Misión 2030.'},
+  {id:'critico',     name:'Pensamiento crítico',     icon:'search', role:'El Explorador de Perspectivas',mission:'Cuestiono lo establecido, descubro nuevas perspectivas y convierto el análisis en decisiones que nos hacen evolucionar.'},
+  {id:'data',        name:'Data Skills',             icon:'bars',   role:'El Navegante de los Datos',    mission:'Descifro los datos, encuentro oportunidades y transformo la información en decisiones que generan valor.'},
+  {id:'creatividad', name:'Creatividad e innovación',icon:'bulb',   role:'El Impulsor de Innovación',    mission:'Desafío los límites, imagino nuevas posibilidades y convierto las ideas en soluciones que impulsan nuestra evolución.'},
+  {id:'comunicacion',name:'Comunicación efectiva',   icon:'chat',   role:'El Conector del Ecosistema',   mission:'Conecto personas, alineo propósitos y transformo las ideas en acciones que nos permiten avanzar juntos.'},
+  {id:'problemas',   name:'Resolución de problemas', icon:'nodes',  role:'El Diseñador de Soluciones',   mission:'Encuentro oportunidades en los desafíos, conecto alternativas y convierto los obstáculos en avances concretos.'}
+];
+const svgIcon = k => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[k]}</svg>`;
+
+/* Encuadre de plano medio en la tarjeta (coordenadas del lienzo 1920×1080) */
+const CROP = {x:690, y:30, w:560};     // región visible; se escala a 340 px de ancho
+const AV_W = 340;
+
+/* ===================== ESTADO ===================== */
+const state = {name:'', gender:'hombre', equipped:[], skill:null, step:0};
+
+/* ===================== CAPAS ===================== */
+const LAYERS = [
+  {key:'capa',z:1},{key:'propulsor',z:1},
+  {key:'body',z:2},
+  {key:'botas',z:3},{key:'cinturon',z:3},{key:'guantes',z:3},
+  {key:'gafas',z:4},{key:'auriculares',z:4}
+];
+const layerSrc = key => key === 'body' ? A['cuerpo_' + state.gender]
+  : key === 'cinturon' ? (state.gender === 'mujer' ? A.item_cinturon_mujer : A.item_cinturon)
+  : A['item_' + key];
+
+function buildStage(stage) {
+  stage.innerHTML = '';
+  LAYERS.forEach(l => {
+    const img = new Image();
+    img.className = 'layer z' + l.z;
+    img.dataset.layer = l.key; img.alt = ''; img.draggable = false;
+    stage.appendChild(img);
+  });
+  syncStage(stage);
+}
+function syncStage(stage) {
+  stage.querySelectorAll('.layer').forEach(img => {
+    const k = img.dataset.layer, src = layerSrc(k);
+    if (img.getAttribute('src') !== src) img.src = src;
+    img.style.opacity = (k === 'body' || state.equipped.includes(k)) ? 1 : 0;
+  });
+}
+const stageMain = $('#stage-main');
+buildStage(stageMain);
+function refreshViewer(scan) {
+  syncStage(stageMain);
+  $('#nameplate').textContent = state.name ? 'Colaborador: ' + state.name : '';
+  if (scan) { const s = $('#scan'); s.classList.remove('go'); void s.offsetWidth; s.classList.add('go'); }
+}
+
+/* ===================== NAVEGACIÓN ===================== */
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  document.body.classList.toggle('is-welcome', id === 's0');
+  window.scrollTo(0, 0);
+}
+function setStep(n) {
+  state.step = n;
+  if (n === 4) { renderCard(); show('s4'); return; }
+  show('s-build');
+  document.querySelectorAll('#stepper li').forEach(li => {
+    const s = +li.dataset.s;
+    li.classList.toggle('cur', s === n); li.classList.toggle('done', s < n);
+    li.querySelector('i').textContent = s < n ? '✓' : s;
+    li.setAttribute('aria-current', s === n ? 'step' : 'false');
+  });
+  const body = $('#step-body');
+  body.innerHTML = '';
+  ({1: renderGender, 2: renderPowers, 3: renderSkills})[n](body);
+  $('#btn-back').style.visibility = n === 1 ? 'hidden' : 'visible';
+  $('#btn-next').textContent = n === 3 ? 'Generar credencial' : 'Continuar';
+  updateNext();
+  refreshViewer(false);
+}
+function updateNext() {
+  const ok = state.step === 1 || (state.step === 2 && state.equipped.length === 2) || (state.step === 3 && !!state.skill);
+  $('#btn-next').disabled = !ok;
+}
+$('#btn-back').onclick = () => setStep(state.step - 1);
+$('#btn-next').onclick = () => { if (!$('#btn-next').disabled) setStep(state.step + 1); };
+
+/* ---- Paso 0 ---- */
+$('#start-form').addEventListener('submit', e => {
+  e.preventDefault();
+  const inp = $('#name'), v = inp.value.trim().replace(/\s+/g, ' ');
+  if (v.length < 2) {
+    inp.classList.remove('err'); void inp.offsetWidth; inp.classList.add('err');
+    $('#name-msg').textContent = 'Escribe tu nombre (mínimo 2 letras) para iniciar la misión.';
+    inp.focus(); return;
+  }
+  $('#name-msg').textContent = ''; inp.classList.remove('err');
+  state.name = v; setStep(1);
+});
+$('#name').addEventListener('input', () => { $('#name').classList.remove('err'); $('#name-msg').textContent = ''; });
+
+/* ---- Paso 1: género ---- */
+function renderGender(body) {
+  body.innerHTML = `
+    <h2 class="step-title">Elige tu avatar base</h2>
+    <p class="step-help">El cuerpo cambia al instante en el visor.</p>
+    <div class="gender" role="group" aria-label="Género del avatar">
+      ${['hombre','mujer'].map(g => `
+        <button type="button" class="opt" data-g="${g}" aria-pressed="${state.gender === g}">
+          <span class="thumb"><img alt="" src="${A['cuerpo_' + g]}"></span>
+          <span>${g === 'hombre' ? 'HOMBRE' : 'MUJER'}</span>
+        </button>`).join('')}
+    </div>`;
+  body.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    state.gender = b.dataset.g;
+    body.querySelectorAll('.opt').forEach(x => x.setAttribute('aria-pressed', x === b));
+    refreshViewer(true);
+  });
+}
+
+/* ---- Paso 2: poderes (máx. 2, FIFO) ---- */
+function renderPowers(body) {
+  body.innerHTML = `
+    <h2 class="step-title">Equipa tus poderes</h2>
+    <p class="step-help">Elige 2. Si marcas un tercero, se libera el más antiguo.</p>
+    <div class="counter"><strong id="cnt" aria-live="polite"></strong><div class="pips" aria-hidden="true"><b></b><b></b></div></div>
+    <p class="swap-note" id="swap" aria-live="polite"></p>
+    <div class="items" role="group" aria-label="Poderes disponibles">
+      ${ITEMS.map(it => `
+        <button type="button" class="opt" data-id="${it.id}" aria-pressed="false">
+          <span class="badge-n"></span>
+          <span class="ico"><img alt="" src="${A['icon_' + it.id]}"></span>
+          <span><span class="nm">${esc(it.name)}</span><span class="tg">${esc(it.tag)}</span></span>
+        </button>`).join('')}
+    </div>`;
+  body.querySelectorAll('.opt').forEach(b => b.onclick = () => {
+    const id = b.dataset.id, i = state.equipped.indexOf(id);
+    let note = '';
+    if (i >= 0) state.equipped.splice(i, 1);
+    else {
+      state.equipped.push(id);
+      if (state.equipped.length > 2) {
+        const out = state.equipped.shift();
+        note = `Se liberó «${ITEM(out).name}» para mantener el límite de 2.`;
+      }
+    }
+    paintPowers(body, note);
+    updateNext(); refreshViewer(i < 0);
+  });
+  paintPowers(body, '');
+}
+function paintPowers(body, note) {
+  body.querySelectorAll('.opt').forEach(b => {
+    const i = state.equipped.indexOf(b.dataset.id);
+    b.setAttribute('aria-pressed', i >= 0);
+    b.querySelector('.badge-n').textContent = i + 1;
+  });
+  $('#cnt').textContent = `Poderes equipados: ${state.equipped.length}/2`;
+  body.querySelectorAll('.pips b').forEach((p, k) => p.classList.toggle('on', k < state.equipped.length));
+  $('#swap').textContent = note;
+}
+
+/* ---- Paso 3: habilidad (exactamente 1) ---- */
+function renderSkills(body) {
+  body.innerHTML = `
+    <h2 class="step-title">Elige tu habilidad</h2>
+    <p class="step-help">Solo una. Define tu rol en el ecosistema.</p>
+    <div class="skills" role="radiogroup" aria-label="Habilidades">
+      ${SKILLS.map(s => `
+        <button type="button" class="opt" role="radio" data-id="${s.id}" aria-checked="${state.skill === s.id}">
+          ${svgIcon(s.icon)}<span class="nm">${esc(s.name)}</span>
+        </button>`).join('')}
+    </div>
+    <div class="mission-preview" id="mp" aria-live="polite"></div>`;
+  const paint = () => {
+    const s = SKILLS.find(x => x.id === state.skill);
+    body.querySelectorAll('.opt').forEach(b => b.setAttribute('aria-checked', b.dataset.id === state.skill));
+    $('#mp').innerHTML = s ? `<h4>${esc(s.role)}</h4><p>${esc(s.mission)}</p>`
+      : `<p style="color:var(--muted)">Selecciona una habilidad para ver tu rol y tu misión.</p>`;
+  };
+  body.querySelectorAll('.opt').forEach(b => b.onclick = () => { state.skill = b.dataset.id; paint(); updateNext(); });
+  paint();
+}
+
+/* ===================== TARJETA FINAL ===================== */
+let uid = 0;
+function frame(w, h, o = {}) {
+  const c = o.c ?? 16, i = o.i ?? 2, id = 'g' + (++uid);
+  const P = (ins, cc) => [[ins+cc,ins],[w-ins-cc,ins],[w-ins,ins+cc],[w-ins,h-ins-cc],[w-ins-cc,h-ins],[ins+cc,h-ins],[ins,h-ins-cc],[ins,ins+cc]].map(p => p.join(',')).join(' ');
+  const stroke = o.stroke ?? '#34e58c';
+  let s = `<svg class="bgsvg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">`;
+  if (o.grad) s += `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb81f" stop-opacity=".62"/><stop offset="1" stop-color="#007755" stop-opacity=".78"/></linearGradient></defs>`;
+  const fill = o.grad ? `url(#${id})` : (o.fill ?? 'rgba(3,40,32,.86)');
+  s += `<polygon points="${P(i,c)}" fill="${fill}"/>`;
+  s += `<polygon points="${P(i,c)}" fill="none" stroke="${stroke}" stroke-opacity=".28" stroke-width="6" stroke-linejoin="round"/>`;
+  s += `<polygon points="${P(i,c)}" fill="none" stroke="${stroke}" stroke-width="2" stroke-linejoin="round"/>`;
+  if (o.inner !== false) s += `<polygon points="${P(i+7,Math.max(c-5,4))}" fill="none" stroke="${stroke}" stroke-opacity=".42" stroke-width="1.2" stroke-linejoin="round"/>`;
+  if (o.accent !== false) {
+    s += `<path d="M${w*.52} ${i} H${w*.72}" stroke="#FFD854" stroke-width="3" stroke-linecap="round"/>`;
+    s += `<path d="M${w*.74} ${i} H${w*.88}" stroke="#86BC25" stroke-width="3" stroke-linecap="round"/>`;
+    s += `<path d="M${w*.6} ${h-i} H${w*.82}" stroke="#FFD854" stroke-width="3" stroke-linecap="round"/>`;
+  }
+  return s + '</svg>';
+}
+function cardFrame() {
+  const w = 640, h = 960, c = 38, i = 6;
+  const P = [[i+c,i],[w-i-c,i],[w-i,i+c],[w-i,h-i-c],[w-i-c,h-i],[i+c,h-i],[i,h-i-c],[i,i+c]].map(p => p.join(',')).join(' ');
+  return `<svg class="bgsvg" style="z-index:9" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${P}" fill="none" stroke="#86BC25" stroke-opacity=".35" stroke-width="12" stroke-linejoin="round"/>
+    <polygon points="${P}" fill="none" stroke="#c6f23a" stroke-width="3.5" stroke-linejoin="round"/>
+    <polygon points="${P}" transform="translate(12 12) scale(${(w-24)/w} ${(h-24)/h})" fill="none" stroke="#2bd883" stroke-opacity=".5" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M${i+4} ${i+c+60} V${i+c+8} L${i+c+8} ${i+4} H${i+c+70}" fill="none" stroke="#FFD854" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M${w-i-4} ${h-i-c-60} V${h-i-c-8} L${w-i-c-8} ${h-i-4} H${w-i-c-70}" fill="none" stroke="#FFD854" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M${w-i-4} ${i+c+90} V${i+c+40}" stroke="#FFD854" stroke-width="5" stroke-linecap="round"/>
+    <path d="M${i+4} ${h-i-c-90} V${h-i-c-40}" stroke="#FFD854" stroke-width="5" stroke-linecap="round"/>
+  </svg>`;
+}
+function badge(icon, x, y, size = 54) {
+  const r = size / 2, pts = [0,1,2,3,4,5].map(k => { const a = Math.PI/3*k - Math.PI/6; return `${(r+(r-3)*Math.cos(a)).toFixed(1)},${(r+(r-3)*Math.sin(a)).toFixed(1)}`; }).join(' ');
+  const k = size * .5 / 24;
+  return `<svg class="badge" style="left:${x}px;top:${y}px;z-index:3" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="${pts}" fill="#03261e" stroke="#86BC25" stroke-opacity=".35" stroke-width="6" stroke-linejoin="round"/>
+    <polygon points="${pts}" fill="#04362a" stroke="#c6f23a" stroke-width="2.4" stroke-linejoin="round"/>
+    <g transform="translate(${size*.25} ${size*.25}) scale(${k})" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICON[icon]}</g>
+  </svg>`;
+}
+const chip = (txt, x, y, w, h = 30) => `<div class="chip" style="left:${x}px;top:${y}px;width:${w}px;height:${h}px;z-index:2">${frame(w, h, {c:9, i:1.5, fill:'rgba(3,52,40,.95)', stroke:'#4ee89a', inner:false, accent:false})}<span>${txt}</span></div>`;
+const chevrons = (x, y, s = 1, col = '#86BC25') => `<svg class="bgsvg" style="left:${x}px;top:${y}px" width="${60*s}" height="${46*s}" viewBox="0 0 60 46" xmlns="http://www.w3.org/2000/svg"><path d="M4 4 26 23 4 42h14l22-19L18 4z" fill="${col}" opacity=".9"/><path d="M26 4 48 23 26 42h14l16-19L40 4z" fill="${col}" opacity=".55"/></svg>`;
+function globe(x, y, s) {
+  const pts = [[.5,.12],[.82,.3],[.86,.64],[.55,.88],[.2,.74],[.16,.34],[.5,.5],[.34,.2],[.72,.52]].map(p => [p[0]*s, p[1]*s]);
+  const L = [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[6,0],[6,2],[6,4],[6,1],[6,3],[6,5],[7,0],[7,5],[8,1],[8,2],[7,6],[8,6]];
+  return `<svg class="bgsvg" style="left:${x}px;top:${y}px" width="${s}" height="${s}" viewBox="0 0 ${s} ${s}" xmlns="http://www.w3.org/2000/svg">
+    <defs><radialGradient id="gl${++uid}" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#1fd47f" stop-opacity=".45"/><stop offset="1" stop-color="#03261e" stop-opacity=".2"/></radialGradient></defs>
+    <circle cx="${s/2}" cy="${s/2}" r="${s/2-3}" fill="url(#gl${uid})" stroke="#4ee89a" stroke-opacity=".6" stroke-width="2"/>
+    ${L.map(([a,b]) => `<line x1="${pts[a][0]}" y1="${pts[a][1]}" x2="${pts[b][0]}" y2="${pts[b][1]}" stroke="#7dffc0" stroke-opacity=".55" stroke-width="1"/>`).join('')}
+    ${pts.map(p => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#eafff3"/>`).join('')}
+  </svg>`;
+}
+function slot(item, n, x, y) {
+  return `<div class="slot" style="left:${x}px;top:${y}px">
+    <div class="ring"><img alt="" src="${A['icon_' + item.id]}"></div>
+    <div class="cap">${frame(186, 80, {c:10, i:1.5, fill:'rgba(4,54,42,.9)', stroke:'#7bd83a', inner:false, accent:false})}<b>${esc(item.name)}</b><small>${esc(item.tag)}</small></div>
+  </div>`;
+}
+function buildMessage() {
+  const [a, b] = state.equipped.map(ITEM);
+  const sk = SKILLS.find(s => s.id === state.skill);
+  return `${state.name}, con ${a.art} y ${b.art} vas a ${a.does} y a ${b.does}. Así, como ${sk.role.replace(/^El /, 'el ')}, impulsas la evolución de Aportes en Línea hacia la Misión 2030.`;
+}
+function cardHTML() {
+  const sk = SKILLS.find(s => s.id === state.skill);
+  const [a, b] = state.equipped.map(ITEM);
+  return `
+  <div class="mc" id="mc" style="background-image:url(${A.cardbg})">
+    <div class="abs" style="left:0;top:0;width:640px;height:960px;background:linear-gradient(180deg,rgba(2,24,18,.25),rgba(2,24,18,.05) 40%,rgba(2,24,18,.35))"></div>
+    ${cardFrame()}
+    <div class="abs" style="left:14px;top:30px;width:350px;height:392px;z-index:1;background:radial-gradient(ellipse 60% 55% at 50% 45%,rgba(134,188,37,.35),transparent 70%)"></div>
+    <div class="avwrap" style="z-index:2"><div class="avstage no-anim" id="avstage"></div></div>
+
+    <div class="abs ct" style="left:350px;top:34px;width:262px;z-index:4"><span class="k">MISIÓN 2030:</span><span class="s">SOMOS <i>(+)</i></span><span class="e">EVOLUCIÓN</span></div>
+    ${chevrons(362, 74, .38)}
+
+    <div class="pn" style="left:350px;top:112px;width:268px;height:122px;z-index:4">${frame(268,122,{c:16})}
+      ${chip('IDENTIDAD DEL AVATAR', 40, 12, 214)}${badge('user', -14, 4, 56)}
+      <div class="in nm" id="c-name" style="left:22px;top:52px;width:228px;height:56px">${esc(state.name)}</div></div>
+
+    <div class="pn" style="left:350px;top:248px;width:268px;height:152px;z-index:4">${frame(268,152,{c:16,grad:true,stroke:'#c6f23a'})}
+      ${chip('ROL EN EL ECOSISTEMA', 40, 12, 214)}${badge('compass', -14, 4, 56)}
+      <div class="in rol" id="c-rol" style="left:22px;top:54px;width:232px;height:86px">${esc(sk.role)}</div></div>
+
+    <div class="pn" style="left:22px;top:414px;width:596px;height:152px;z-index:5">${frame(596,152,{c:20})}
+      ${chip('MISIÓN', 66, 10, 150)}${badge('target', 8, -8, 58)}
+      <div class="in txt" style="left:26px;top:56px;width:440px;height:86px">${esc(sk.mission)}</div>
+      ${globe(480, 38, 100)}</div>
+
+    <div class="pn" style="left:22px;top:578px;width:596px;height:158px;z-index:5">${frame(596,158,{c:20})}
+      ${chip('MIS DOS PODERES', 66, 10, 232)}${badge('bolt', 8, -8, 58)}
+      ${slot(a, 1, 22, 54)}${slot(b, 2, 302, 54)}</div>
+
+    <div class="pn" style="left:22px;top:748px;width:596px;height:170px;z-index:5">${frame(596,170,{c:20})}
+      ${chip('MENSAJE PARA TU MISIÓN', 66, 10, 290)}${badge('chat', 8, -8, 58)}
+      <div class="in txt msg" id="c-msg" style="left:26px;top:56px;width:490px;height:104px">${esc(buildMessage())}</div>
+      ${chevrons(528, 74, .8, '#8fe03a')}</div>
+  </div>`;
+}
+function fitText(el, max, min) {
+  let s = max; el.style.fontSize = s + 'px';
+  while (el.scrollHeight > el.clientHeight + 1 && s > min) { s -= 1; el.style.fontSize = s + 'px'; }
+}
+function renderCard() {
+  const host = $('#card-scale');
+  host.innerHTML = cardHTML();
+  const st = $('#avstage'), k = AV_W / CROP.w;
+  Object.assign(st.style, {width: 1920*k + 'px', height: 1080*k + 'px', left: -CROP.x*k + 'px', top: -CROP.y*k + 'px'});
+  buildStage(st);
+  fitText($('#c-name'), 28, 13); fitText($('#c-rol'), 23, 14); fitText($('#c-msg'), 16, 12);
+  $('#toast').textContent = '';
+  scaleCard();
+}
+function scaleCard() {
+  const fit = $('#card-fit'); if (!fit) return;
+  const wide = innerWidth >= 900;
+  let s = wide ? Math.min(1, (innerHeight - 32) / 960, (innerWidth - 420) / 640) : Math.min(1, (innerWidth - 24) / 640);
+  s = Math.max(.3, s);
+  $('#card-scale').style.transform = `scale(${s})`;
+  fit.style.width = 640 * s + 'px'; fit.style.height = 960 * s + 'px';
+}
+addEventListener('resize', scaleCard);
+
+/* ---- Descarga PNG ---- */
+$('#btn-dl').onclick = async () => {
+  const btn = $('#btn-dl'), toast = $('#toast');
+  if (typeof html2canvas === 'undefined') { toast.textContent = 'No se pudo cargar html2canvas. Revisa tu conexión a internet e inténtalo de nuevo.'; return; }
+  btn.disabled = true; btn.textContent = 'Generando…'; toast.textContent = '';
+  let sandbox;
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    sandbox = document.createElement('div');
+    sandbox.style.cssText = 'position:fixed;left:-10000px;top:0;width:640px;height:960px;pointer-events:none';
+    const clone = $('#mc').cloneNode(true);
+    sandbox.appendChild(clone); document.body.appendChild(sandbox);
+    await Promise.all([...clone.querySelectorAll('img')].map(i => i.decode ? i.decode().catch(() => {}) : Promise.resolve()));
+    const canvas = await html2canvas(clone, {scale: 2, backgroundColor: null, useCORS: true, logging: false, width: 640, height: 960});
+    const slug = state.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'colaborador';
+    const a = document.createElement('a');
+    a.download = `credencial-mision-2030-${slug}.png`;
+    a.href = canvas.toDataURL('image/png');
+    document.body.appendChild(a); a.click(); a.remove();
+    toast.style.color = 'var(--lime)'; toast.textContent = 'Credencial descargada.';
+  } catch (err) {
+    console.error(err); toast.style.color = ''; toast.textContent = 'No se pudo generar la imagen. Inténtalo de nuevo.';
+  } finally {
+    if (sandbox) sandbox.remove();
+    btn.disabled = false; btn.textContent = 'Descargar Credencial (PNG)';
+  }
+};
+
+/* ---- Reiniciar ---- */
+$('#btn-new').onclick = () => {
+  Object.assign(state, {name:'', gender:'hombre', equipped:[], skill:null, step:0});
+  $('#name').value = ''; $('#card-scale').innerHTML = '';
+  refreshViewer(false); show('s0'); setTimeout(() => $('#name').focus(), 50);
+};
+
+refreshViewer(false);
+})();
+</script>
+</body>
+</html>
